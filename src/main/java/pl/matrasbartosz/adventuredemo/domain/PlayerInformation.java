@@ -109,7 +109,6 @@ public class PlayerInformation {
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", gold=" + gold +
-                ", heroes=" + heroes +
                 '}';
     }
 }

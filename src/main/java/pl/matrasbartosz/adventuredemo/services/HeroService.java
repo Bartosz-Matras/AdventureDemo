@@ -10,6 +10,8 @@ import pl.matrasbartosz.adventuredemo.repository.PlayerInformationRepository;
 import pl.matrasbartosz.adventuredemo.repository.QuestRepository;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -48,13 +50,19 @@ public class HeroService {
 
         for (Hero hero : playerHeroes){
 
-            if(hero.getExperience() > hero.getRequireExperience()){
-                System.out.println(hero);
+            while (hero.getExperience() > hero.getRequireExperience()){
                 hero.setLevel(hero.getLevel()+1);
-                Double expToPass = hero.getExperience() - hero.getRequireExperience();
+                Double expToPass = BigDecimal.valueOf(hero.getExperience() - hero.getRequireExperience())
+                        .setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue();
                 hero.setExperience(expToPass);
-                hero.setRequireExperience(hero.getRequireExperience() * 1.5);
+                Double nextRequireExperience = BigDecimal.valueOf(hero.getRequireExperience() * 1.5)
+                        .setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue();
+                hero.setRequireExperience(nextRequireExperience);
+                heroRepository.save(hero);
             }
+
         }
 
     }

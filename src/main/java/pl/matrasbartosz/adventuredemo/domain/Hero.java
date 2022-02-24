@@ -31,7 +31,7 @@ public class Hero {
     @Column(name = "experience")
     private Double experience;
 
-    @Transient
+    @Column(name = "require_experience")
     private Double requireExperience;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
@@ -133,7 +133,6 @@ public class Hero {
         this.quest = quest;
     }
 
-
     @Override
     public String toString() {
         return "Hero{" +
@@ -144,8 +143,6 @@ public class Hero {
                 ", level=" + level +
                 ", experience=" + experience +
                 ", requireExperience=" + requireExperience +
-                ", playerInformation=" + playerInformation +
-                ", quest=" + quest +
                 '}';
     }
 }

@@ -148,7 +148,6 @@ public class Quest {
                 ", started=" + started +
                 ", completed=" + completed +
                 ", startDate=" + startDate +
-                ", hero=" + hero +
                 '}';
     }
 }

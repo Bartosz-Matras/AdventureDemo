@@ -47,17 +47,21 @@ public class QuestService {
     @Scheduled(fixedDelayString = "${questCreationDelay}")
     @Transactional
     public void createRandomQuest(){
-        Integer randomTime = randomTime();
+        List<Quest> quests = questRepository.getQuestsByStartedIsFalse();
 
-        Integer randomReward = rand.nextInt(100 - 10) + 10;
+        if (quests.size() <= 10){
+            Integer randomTime = randomTime();
 
-        BigDecimal exp = BigDecimal.valueOf((rand.nextDouble(9900.0 - 10.0) + 10.0) + randomTime * 0.05)
-                .setScale(2, RoundingMode.HALF_UP);
+            Integer randomReward = rand.nextInt(100 - 10) + 10;
+
+            BigDecimal exp = BigDecimal.valueOf((rand.nextDouble(99900.0 - 10.0) + 10.0) + randomTime * 0.05)
+                    .setScale(2, RoundingMode.HALF_UP);
 
 
-        Quest questToSave = new Quest(randomDescriptions(), randomReward, Double.valueOf(String.valueOf(exp)), randomTime);
+            Quest questToSave = new Quest(randomDescriptions(), randomReward, Double.valueOf(String.valueOf(exp)), randomTime);
 
-        questRepository.save(questToSave);
+            questRepository.save(questToSave);
+        }
     }
 
     @Scheduled(fixedDelayString = "${questRemovalDelay}")
@@ -65,7 +69,7 @@ public class QuestService {
     public void deleteRandomQuest(){
         List<Quest> quests = questRepository.getQuestsByStartedIsFalse();
 
-        if(!quests.isEmpty()){
+        if(!quests.isEmpty() && quests.size() <= 10){
             Quest quest = quests.get(rand.nextInt(quests.size()));
             questRepository.deleteQuestsByIdQuest(quest.getIdQuest());
         }
@@ -92,8 +96,9 @@ public class QuestService {
 
     private Integer randomTime(){
         List<Integer> times = new ArrayList<>();
-        times.add(10);
-        times.add(5);
+        times.add(3);
+        times.add(4);
+//        times.add(10);
 //        times.add(30);
 //        times.add(60);
 //        times.add(120);
@@ -121,7 +126,6 @@ public class QuestService {
             if(hero.getQuest() != null){
                 boolean completed = hero.getQuest().isCompleted();
                 if(completed){
-
                     questRepository.save(hero.getQuest());
                 }
             }
