@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Knight list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="row form-group"></div>
+    <h2>Quests: </h2>
+    <div class="row form-group"></div>
+
+    <form class="form-horizontal" th:object="${hero}" th:action="@{/quest/assignQuestToHero}" th:method="post">
+        <input type="hidden" th:field="*{idHero}">
+        <input type="hidden" th:field="*{name}">
+        <input type="hidden" th:field="*{damage}">
+        <input type="hidden" th:field="*{experience}">
+        <input type="hidden" th:field="*{health}">
+        <input type="hidden" th:field="*{level}">
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Description</td>
+                <td>Reward</td>
+                <td>Time</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="quest : ${quests}">
+                <td th:text="${quest.getDescription()}"></td>
+                <td th:text="${'Gold:  ' + quest.getReward() + ',  experience:  ' + quest.getExperience()}"></td>
+                <td th:text="${quest.getDescription()}"></td>
+                <td>
+                    <label>
+                        <input type="radio" th:field="*{quest}" th:value="${quest.idQuest}">
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${quests.isEmpty()}">
+            List is empty. Just wait a few seconds.
+        </div>
+        <div th:if="${not quests.isEmpty()}">
+            <button type="submit" class="btn btn-default">Assign Task</button>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

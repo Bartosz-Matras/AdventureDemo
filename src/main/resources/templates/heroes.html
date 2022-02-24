@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Knight list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="row form-group"></div>
+        <div class="row">
+            <h3>Your gold: <span th:text="${gold}" /></h3>
+
+        </div>
+        <div class="row form-group"></div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Task</td>
+                    <td>Health</td>
+                    <td>Damage</td>
+                    <td>Level</td>
+                    <td>Experience</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="hero : ${heroes}">
+                    <td th:text="${hero.getName()}"></td>
+                    <td>
+                        <span th:if="${hero.getQuest()==null}">
+                            There's no current task <a th:href="${'/quest/assignQuest?heroId='+hero.getIdHero()}">Assign task</a>
+                        </span>
+                        <span th:if="${hero.getQuest()!=null}" th:text="${hero.getQuest().getDescription()}"></span>
+                    </td>
+                    <td th:text="${hero.getHealth()}"></td>
+                    <td th:text="${hero.getDamage()}"></td>
+                    <td th:text="${hero.getLevel()}"></td>
+                    <td th:text="${hero.getExperience() + ' / ' + hero.getRequireExperience()}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+<!--            <a href="/hero/newhero">Add new hero</a>-->
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/hero/newhero'">
+                Add new hero
+            </button>
+        </div>
+
+
+    </div>
+</body>
+</html>

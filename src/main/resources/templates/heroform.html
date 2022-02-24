@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Knight list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+
+   <form class="form-horizontal" th:object="${hero}" th:action="@{/hero/createhero}" th:method="post">
+        <div class="form-group">
+            <label class="control-label">Name:</label>
+            <input type="text" class="form-control" th:field="*{name}">
+            <div class="row form-group"></div>
+            <div class="alert alert-danger" role="alert">
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" />
+            </div>
+        </div>
+
+       <div class="row">
+           <button type="submit" class="btn btn-defaul ">Create Hero</button>
+       </div>
+   </form>
+
+</div>
+</body>
+</html>
